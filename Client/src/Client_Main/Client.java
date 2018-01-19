@@ -6,6 +6,11 @@
 package Client_Main;
 
 import Module.*;
+import java.io.IOException;
+import java.net.InetSocketAddress;
+import java.net.Socket;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 /**
  *
  * @author NattapatN
@@ -17,6 +22,18 @@ public class Client {
         System.out.println("[ Connected ]");
         System.out.println("Host Address : 127.0.0.1");
         System.out.println("Port : "+port);
+        
+        try {
+            Socket socket = new Socket();
+            socket.connect(new InetSocketAddress("127.0.0.1",port));
+            SendMeta sMeta = new SendMeta(socket);
+            sMeta.send("test.mp4");
+            
+            
+            
+        } catch (IOException ex) {
+            Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
 }
