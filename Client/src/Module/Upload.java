@@ -20,7 +20,7 @@ import java.util.logging.Logger;
 public class Upload {
     Socket socket;
     public Upload(Socket socket){
-        this.socket =socket;
+        this.socket = socket;
     }
     
     public void up(String file,int buffersize){
@@ -28,8 +28,8 @@ public class Upload {
         try {
             DataOutputStream dos = new DataOutputStream(socket.getOutputStream());
             fis = new FileInputStream("media/"+file);
-            byte[] buffer = new byte[1024*1024*buffersize];
-            while (fis.read(buffer) > 0) {
+            byte[] buffer = new byte[1024*1024*buffersize]; //8 bit to Byte.
+            while (fis.read(buffer) > 0){
                 dos.write(buffer);
             }
             fis.close();

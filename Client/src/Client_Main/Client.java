@@ -5,35 +5,62 @@
  */
 package Client_Main;
 
-import Module.*;
-import java.io.IOException;
-import java.net.InetSocketAddress;
+import Module.Connect;
+import Module.ConnectServer;
+import Module.EndProgram;
+import Module.ReadNIC;
+import Module.SendData;
+import java.io.File;
+import java.net.NetworkInterface;
 import java.net.Socket;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.ArrayList;
+import java.util.Scanner;
+
+
 /**
- *
  * @author NattapatN
+*
  */
 public class Client {
-    public static void main(String []args){
-        ConnectServer a = new ConnectServer("127.0.0.1",9000);
-        int port = a.getNewPort();
-        System.out.println("[ Connected ]");
-        System.out.println("Host Address : 127.0.0.1");
-        System.out.println("Port : "+port);
+
+    public static void main(String[] args) {
         
-        try {
-            Socket socket = new Socket();
-            socket.connect(new InetSocketAddress("127.0.0.1",port));
-            SendMeta sMeta = new SendMeta(socket);
-            sMeta.send("test.mp4");
-            
-            
-            
-        } catch (IOException ex) {
-            Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        ReadNIC read = new ReadNIC();
+        ArrayList<NetworkInterface> nic = read.getNIC();
+        
+        Scanner scan = new Scanner(System.in);
+        System.out.println("--[ Client ]--");
+        System.out.print("Enter Server Address : ");
+        String server = scan.nextLine();
+        System.out.print("Port : ");
+        int iport = scan.nextInt();
+        
+        System.out.println();
+        System.out.println("Connecting...");
+        System.out.println();
+        
+        ConnectServer a = new ConnectServer(nic.get(0),server, iport);
+        int newPort = a.getNewPort();
+        
+        System.out.println();
+        System.out.println("Connected");
+        System.out.println();
+        
+        Connect con = new Connect();
+        //Connect socket 1
+        Socket socket1 = con.con(nic.get(0), server, newPort);
+
+        //Connect socket 2
+        Socket socket2 = con.con(nic.get(1), server, newPort);
+        
+        Socket[] soc = new Socket[2];
+        soc[0]=socket1;
+        soc[1]=socket2;
+        
+        SendData sdata = new SendData(soc);
+        sdata.send(new File("media/test.mp4"));
+        
+        //End program
+        new EndProgram();
     }
-    
 }

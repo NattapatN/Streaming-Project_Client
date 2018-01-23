@@ -11,37 +11,32 @@ import java.io.IOException;
 import java.net.Socket;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 /**
  *
  * @author NattapatN
  */
 public class SendMeta {
-    int bufferSize=1;
+    int bufferSize;
     Socket socket;
-    public SendMeta(Socket socket){
+    public SendMeta(Socket socket,int bufferSize){
+        this.bufferSize = bufferSize;
         this.socket =socket;
     }
     
-    public void send(String filename){
-        
+    public void send(File file) {
         try {
-            File file =new File("media/"+filename);
             DataOutputStream out = new DataOutputStream(socket.getOutputStream());
             out.writeInt(bufferSize);
             out.writeLong(file.length());
-            byte[]data=file.getName().getBytes("UTF-8");
+            byte[] data = file.getName().getBytes("UTF-8");
             out.writeInt(data.length);
             out.write(data);
-            
+
             Upload up = new Upload(socket);
-            up.up("test.mp4",bufferSize);
+            up.up("test.mp4", bufferSize);
         } catch (IOException ex) {
             Logger.getLogger(SendMeta.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-        
-        
     }
     
 }

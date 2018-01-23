@@ -8,6 +8,7 @@ package Module;
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.net.InetSocketAddress;
+import java.net.NetworkInterface;
 import java.net.Socket;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -17,28 +18,32 @@ import java.util.logging.Logger;
  * @author NattapatN
  */
 public class ConnectServer {
+
     String address;
     int port;
-    
-    public ConnectServer(String add,int por){
-            address = add;
-            port = por;
+    NetworkInterface nic;
+
+    public ConnectServer(NetworkInterface nic, String add, int por) {
+        this.nic = nic;
+        address = add;
+        port = por;
     }
-    
-    public int getNewPort(){
-        int newport=0;
+
+    public int getNewPort() {
+        int newport = 0;
         try {
             Socket socket = new Socket();
-            socket.connect(new InetSocketAddress(address,port));
-            
+            socket.bind(new InetSocketAddress(nic.getName(), 0));
+            socket.connect(new InetSocketAddress(address, port));
+
             DataInputStream in = new DataInputStream(socket.getInputStream());
-            newport =in.readInt();
-            
+            newport = in.readInt();
+
         } catch (IOException ex) {
             Logger.getLogger(ConnectServer.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         return newport;
     }
-    
+
 }
