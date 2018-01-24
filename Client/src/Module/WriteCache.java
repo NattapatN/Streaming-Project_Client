@@ -9,6 +9,10 @@ package Module;
  *
  * @author NattapatN
  */
-public class ClientThread extends Thread{
+public class WriteCache {
     
+    public WriteCache(){
+    }
+    
+    public void write(){}
 }

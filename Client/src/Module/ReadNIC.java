@@ -51,7 +51,7 @@ public class ReadNIC {
                     InetAddress ip = addresses.nextElement();
                     if (ip instanceof Inet4Address) {
                         if (ip.isSiteLocalAddress()) {
-                            System.out.println(element.getName() + " - " + ip.getHostAddress());
+//                            System.out.println(element.getName() + " - " + ip.getHostAddress());
                             nic.add(element);
                         }
                     }
@@ -62,5 +62,4 @@ public class ReadNIC {
         }
         return nic;
     }
-
 }
