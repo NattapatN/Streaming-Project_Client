@@ -34,7 +34,10 @@ public class ConnectServer {
             Socket socket= new Socket(server,port);
             
             DataInputStream in = new DataInputStream(socket.getInputStream());
+            DataOutputStream out = new DataOutputStream(socket.getOutputStream());
             newPort=in.readInt();
+            out.writeInt(link);
+            
             
         } catch (IOException ex) {
             Logger.getLogger(ConnectServer.class.getName()).log(Level.SEVERE, null, ex);
