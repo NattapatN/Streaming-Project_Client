@@ -39,7 +39,7 @@ public class TestSendFile {
 	}
 	
 	public static void main(String[] args) {
-		TestSendFile fc = new TestSendFile("localhost", 1988, "media/test.mp4");
+		TestSendFile fc = new TestSendFile("192.168.2.1", 1988, "media/test.mp4");
 	}
 
     

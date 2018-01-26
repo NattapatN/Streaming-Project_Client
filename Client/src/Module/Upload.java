@@ -23,26 +23,17 @@ public class Upload extends Thread{
     Socket socket;
     File file;
     int bufferSize;
-    int pad;
 
-    public Upload(Socket socket, File file,int bufferSize,int pad) {
+    public Upload(Socket socket, File file,int bufferSize) {
         this.bufferSize = bufferSize;
         this.socket = socket;
         this.file = file;
-        this.pad=pad;
     }
     
     public void run(){
-        System.out.println("Upload cache "+pad+" from "+socket.getInetAddress());
+        System.out.println("Upload cache from "+socket.getInetAddress());
         FileInputStream fis = null;
         try {
-            DataOutputStream out = new DataOutputStream(socket.getOutputStream());
-            String filename=file.getName()+"pad";
-            byte[] data = filename.getBytes("UTF-8");
-            out.writeInt(data.length);
-            out.write(data);
-            out.close();
-            
             DataOutputStream dos = new DataOutputStream(socket.getOutputStream());
             fis = new FileInputStream(file.getName());
             byte[] buffer = new byte[bufferSize];

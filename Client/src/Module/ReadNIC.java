@@ -18,13 +18,13 @@ import java.util.Enumeration;
  */
 public class ReadNIC {
 
-    ArrayList<NetworkInterface> nic;
+    ArrayList<String> nic;
 
     public ReadNIC() {
-        nic = new ArrayList<NetworkInterface>();
+        nic = new ArrayList<String>();
     }
 
-    public ArrayList<NetworkInterface> getNIC() {
+    public ArrayList<String> getNIC() {
         Enumeration<NetworkInterface> net = null;
         try { // get all interfaces; ethernet, wifi, virtual... etc
             net = NetworkInterface.getNetworkInterfaces();
@@ -52,7 +52,7 @@ public class ReadNIC {
                     if (ip instanceof Inet4Address) {
                         if (ip.isSiteLocalAddress()) {
 //                            System.out.println(element.getName() + " - " + ip.getHostAddress());
-                            nic.add(element);
+                            nic.add(ip.getHostAddress());
                         }
                     }
                 }

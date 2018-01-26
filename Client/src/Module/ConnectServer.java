@@ -7,6 +7,7 @@ package Module;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.net.Socket;
 import java.util.logging.Level;
@@ -25,10 +26,10 @@ public class ConnectServer {
     public ConnectServer(String server,int port,int link){
         this.server = server ;
         this.port=port;
-        this.link = link;
+        this.link =link;
     }
     
-    public int getNewPort(){
+    public int getNewPort(File file,int bufferSize){
         int newPort =0;
         try {
             Socket socket= new Socket(server,port);
@@ -38,6 +39,8 @@ public class ConnectServer {
             newPort=in.readInt();
             out.writeInt(link);
             
+            SendMeta sMeta = new SendMeta(socket,bufferSize);
+            sMeta.send(file);
             
         } catch (IOException ex) {
             Logger.getLogger(ConnectServer.class.getName()).log(Level.SEVERE, null, ex);

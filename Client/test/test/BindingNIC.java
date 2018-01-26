@@ -22,8 +22,12 @@ public class BindingNIC {
         System.out.println();
         
         Socket socket = new Socket();
-        socket.bind(new InetSocketAddress("192.168.2.130", 0));
-        socket.connect(new InetSocketAddress("192.168.2.199", 9000));
+        socket.bind(new InetSocketAddress("192.168.2.129", 0));
+        socket.connect(new InetSocketAddress("192.168.2.1", 9000));
+        
+        Socket socket1 = new Socket();
+        socket1.bind(new InetSocketAddress("192.168.2.130", 0));
+        socket1.connect(new InetSocketAddress("192.168.2.1", 9001));
         
         
     }
