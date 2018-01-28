@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Module;
+package Test_Sync;
 
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -16,22 +16,12 @@ import java.util.logging.Logger;
  *
  * @author NattapatN
  */
-public class SendFile extends Thread {
-
-    String soc;
-    String filename;
-    String server;
-    int port;
-    byte[] buffer;
-
-    public SendFile(String soc, byte[] buffer, String server, int port) {
-        this.soc = soc;
-        this.buffer = buffer;
-        this.server = server;
-        this.port = port;
+public class SendFile {
+    
+    public SendFile (){
     }
-
-    public void run() {
+    
+    public void send(String soc,String server,int port,byte[]buffer){
         DataOutputStream dos = null;
         try {
             Socket socket = new Socket();
@@ -41,14 +31,16 @@ public class SendFile extends Thread {
             dos.write(buffer);
             dos.close();
         } catch (IOException ex) {
-            Logger.getLogger(SendFile.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Test_Sync.SendFile.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             try {
                 dos.close();
             } catch (IOException ex) {
-                Logger.getLogger(SendFile.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(Test_Sync.SendFile.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
+        System.out.println(soc+" "+server+" "+port );
     }
-
+    
+    
 }

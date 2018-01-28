@@ -3,14 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Client_Main;
+package Test_Sync;
 
 import Module.ConnectServer;
-import Module.ReadNIC;
-import Module.SendFile;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
-import static java.lang.Thread.sleep;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -21,15 +19,14 @@ import java.util.logging.Logger;
  *
  * @author NattapatN
  */
-public class Client_2 {
-
-    public static void main(String[] args) {
+public class Main {
+    public static void main(String [] args){
         int bufferSize = 1 * (1024 * 1024); // 1 MB
         Scanner scan = new Scanner(System.in);
-
-        ReadNIC read = new ReadNIC();
-        ArrayList<String> nic = read.getNIC();
-
+        ArrayList<String> nic;
+        ReadNIC rn = new ReadNIC();
+        nic = rn.getNIC();
+        
         //Binding Socket
         Socket[] socket = new Socket[nic.size()];
 
@@ -49,21 +46,29 @@ public class Client_2 {
         System.out.println("Connected");
         System.out.println();
         System.out.println("You have " + nic.size() + " network connection.");
-
-        //loop write
+        
+        SendFile [] sf = new SendFile[nic.size()];
+        for(int i = 0;i<nic.size();i++){
+            sf[i] = new SendFile();
+        }
+        
         int count=0;
         try {
             FileInputStream fis = new FileInputStream("media/" + filename);
             byte[] buffer = new byte[bufferSize];
             while (fis.read(buffer) > 0) {
                 System.out.println(count);
-                SendFile sendFile = new SendFile(nic.get(count), buffer, server, newPort);
-                sendFile.start();
+                
+                //Thread Socket
+                ThreadSocket ts = new ThreadSocket(nic.get(count),sf[count],server,newPort,buffer);
+                ts.start();
+                
                 count = (count+1)%nic.size();
             }
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
-            Logger.getLogger(Client_2.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         } 
-
     }
 }

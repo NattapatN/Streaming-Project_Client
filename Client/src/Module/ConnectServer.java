@@ -29,7 +29,7 @@ public class ConnectServer {
         this.link =link;
     }
     
-    public int getNewPort(File file,int bufferSize){
+    public int getNewPort(int bufferSize){
         int newPort =0;
         try {
             Socket socket= new Socket(server,port);
@@ -38,9 +38,7 @@ public class ConnectServer {
             DataOutputStream out = new DataOutputStream(socket.getOutputStream());
             newPort=in.readInt();
             out.writeInt(link);
-            
-            SendMeta sMeta = new SendMeta(socket,bufferSize);
-            sMeta.send(file);
+            out.writeInt(bufferSize);
             
         } catch (IOException ex) {
             Logger.getLogger(ConnectServer.class.getName()).log(Level.SEVERE, null, ex);

@@ -56,7 +56,6 @@ public class true_project extends javax.swing.JFrame {
         wCamPanel.setFPSDisplayed(true);
         panelCam.add(wCamPanel);
         wCamPanel.start();
-
     }
 
     /**
@@ -144,6 +143,7 @@ public class true_project extends javax.swing.JFrame {
         );
 
         panelCam.setBackground(new java.awt.Color(255, 255, 255));
+        panelCam.setForeground(new java.awt.Color(255, 255, 255));
 
         javax.swing.GroupLayout panelCamLayout = new javax.swing.GroupLayout(panelCam);
         panelCam.setLayout(panelCamLayout);
