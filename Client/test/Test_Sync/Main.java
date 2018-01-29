@@ -9,6 +9,7 @@ import Module.ConnectServer;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import static java.lang.Thread.sleep;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -20,7 +21,7 @@ import java.util.logging.Logger;
  * @author NattapatN
  */
 public class Main {
-    public static void main(String [] args){
+    public static void main(String [] args) {
         int bufferSize = 1 * (1024 * 1024); // 1 MB
         Scanner scan = new Scanner(System.in);
         ArrayList<String> nic;
@@ -62,6 +63,11 @@ public class Main {
                 //Thread Socket
                 ThreadSocket ts = new ThreadSocket(nic.get(count),sf[count],server,newPort,buffer);
                 ts.start();
+                try {
+                    sleep(2000);
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+                }
                 
                 count = (count+1)%nic.size();
             }
