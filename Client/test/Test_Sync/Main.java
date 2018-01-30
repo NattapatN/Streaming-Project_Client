@@ -6,75 +6,25 @@
 package Test_Sync;
 
 import Module.ConnectServer;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import static java.lang.Thread.sleep;
-import java.net.Socket;
 import java.util.ArrayList;
-import java.util.Scanner;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
  * @author NattapatN
  */
 public class Main {
-    public static void main(String [] args) {
-        int bufferSize = 1 * (1024 * 1024); // 1 MB
-        Scanner scan = new Scanner(System.in);
-        ArrayList<String> nic;
-        ReadNIC rn = new ReadNIC();
-        nic = rn.getNIC();
+
+    public static void main(String[] args) {
+        System.out.println("Client Start");
+        int bufferSize =1024*1024;
         
-        //Binding Socket
-        Socket[] socket = new Socket[nic.size()];
-
-        //get Sever address and port
-        System.out.println("[ Client ]");
-        System.out.print("Enter Server Address : ");
-        String server = scan.next();
-        System.out.print("Enter Server Port : ");
-        int port = scan.nextInt();
-        System.out.print("Enter file name : ");
-        String filename = scan.next();
-
-        System.out.println();
+        ReadNIC rnic = new ReadNIC();
+        ArrayList<String> nic = rnic.getNIC();
+        
         System.out.println("Connecting...");
-        ConnectServer con = new ConnectServer(server, port, nic.size());
+        ConnectServer con = new ConnectServer("192.168.2.1",9000,nic.size());
         int newPort = con.getNewPort(bufferSize);
-        System.out.println("Connected");
-        System.out.println();
-        System.out.println("You have " + nic.size() + " network connection.");
+        System.out.println("Connected new port : "+newPort);
         
-        SendFile [] sf = new SendFile[nic.size()];
-        for(int i = 0;i<nic.size();i++){
-            sf[i] = new SendFile();
-        }
-        
-        int count=0;
-        try {
-            FileInputStream fis = new FileInputStream("media/" + filename);
-            byte[] buffer = new byte[bufferSize];
-            while (fis.read(buffer) > 0) {
-                System.out.println(count);
-                
-                //Thread Socket
-                ThreadSocket ts = new ThreadSocket(nic.get(count),sf[count],server,newPort,buffer);
-                ts.start();
-                try {
-                    sleep(2000);
-                } catch (InterruptedException ex) {
-                    Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                
-                count = (count+1)%nic.size();
-            }
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-        } 
     }
 }

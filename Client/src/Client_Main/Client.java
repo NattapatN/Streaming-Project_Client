@@ -49,7 +49,7 @@ public class Client {
         System.out.println("Connecting...");
         File file = new File("media/" + filename);
         ConnectServer con = new ConnectServer(server, port,nic.size());
-        int newPort = con.getNewPort(file, bufferSize);
+        int newPort = con.getNewPort(bufferSize);
         System.out.println("Connected");
         System.out.println();
 

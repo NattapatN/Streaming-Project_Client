@@ -17,7 +17,7 @@ import java.util.List;
  */
 public class MergeFile {
 
-    private static String FILE_NAME = "media/test.mp4";
+    private static String FILE_NAME = "media/cache";
     public static void main(String[] args) {
         File ofile = new File(FILE_NAME);
         FileOutputStream fos;
@@ -25,8 +25,9 @@ public class MergeFile {
         byte[] fileBytes;
         int bytesRead = 0;
         List<File> list = new ArrayList<File>();
-        list.add(new File(FILE_NAME + ".part0"));
-        list.add(new File(FILE_NAME + ".part1"));
+        for(int i = 0;i<25;i++){
+            list.add(new File("media/cache"+i+".mp4"));
+        }
         try {
             fos = new FileOutputStream("media/testz.mp4", true);
             for (File file : list) {
