@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Test_Sync;
+package Test_Sync2;
 
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -25,7 +25,7 @@ public class SendFile {
         DataOutputStream dos = null;
         try {
             Socket socket = new Socket();
-            socket.bind(new InetSocketAddress(soc, 0));
+//            socket.bind(new InetSocketAddress(soc, 0));
             socket.connect(new InetSocketAddress(server, port));
             dos = new DataOutputStream(socket.getOutputStream());
             dos.write(buffer);
