@@ -17,9 +17,7 @@ import java.util.List;
  */
 public class MergeFile {
 
-    private static String FILE_NAME = "media/cache";
     public static void main(String[] args) {
-        File ofile = new File(FILE_NAME);
         FileOutputStream fos;
         FileInputStream fis;
         byte[] fileBytes;

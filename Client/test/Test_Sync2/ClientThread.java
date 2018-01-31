@@ -25,7 +25,7 @@ public class ClientThread extends Thread{
     }
     
     public void run(){
-        System.out.println("thread start");
+        System.out.println("thread : "+filename+" start!!");
         sf.send(soc,server,port,filename);
     }
     

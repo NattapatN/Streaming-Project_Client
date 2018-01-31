@@ -10,7 +10,6 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import static java.lang.Thread.sleep;
-import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.logging.Level;
@@ -60,11 +59,11 @@ public class Main {
                 out.write(buffer);
                 out.flush();
                 out.close();
-                synchronized (sf[0]) {
+                synchronized (sf[1]) {
                     ClientThread cThread = new ClientThread(nic.get(count % nic.size()), server, newPort, fileOut, sf[count % nic.size()]);
                     cThread.start();
                 }
-                sleep(2000);
+                sleep(1000);
                 count++;
             }
 

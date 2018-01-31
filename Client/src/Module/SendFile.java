@@ -6,6 +6,8 @@
 package Module;
 
 import java.io.DataOutputStream;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.Socket;
@@ -16,39 +18,36 @@ import java.util.logging.Logger;
  *
  * @author NattapatN
  */
-public class SendFile extends Thread {
+public class SendFile {
 
-    String soc;
-    String filename;
-    String server;
-    int port;
-    byte[] buffer;
-
-    public SendFile(String soc, byte[] buffer, String server, int port) {
-        this.soc = soc;
-        this.buffer = buffer;
-        this.server = server;
-        this.port = port;
+    public SendFile() {
     }
 
-    public void run() {
-        DataOutputStream dos = null;
+    public void send(String soc, String server, int port, String filename) {
+        FileInputStream fis = null;
         try {
             Socket socket = new Socket();
             socket.bind(new InetSocketAddress(soc, 0));
             socket.connect(new InetSocketAddress(server, port));
-            dos = new DataOutputStream(socket.getOutputStream());
-            dos.write(buffer);
+
+            DataOutputStream dos = new DataOutputStream(socket.getOutputStream());
+            fis = new FileInputStream(filename);
+            byte[] buffer = new byte[4096];
+            while (fis.read(buffer) > 0) {
+                dos.write(buffer);
+            }
+            fis.close();
             dos.close();
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(SendFile.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
             Logger.getLogger(SendFile.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             try {
-                dos.close();
+                fis.close();
             } catch (IOException ex) {
                 Logger.getLogger(SendFile.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }
-
 }
