@@ -5,6 +5,7 @@
  */
 package Client_Main;
 
+import Module.ConnectServer;
 import Module.ReadNIC;
 import Module.SendFile;
 import com.github.sarxos.webcam.Webcam;
@@ -20,12 +21,7 @@ import com.xuggle.xuggler.video.IConverter;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import static java.lang.Thread.sleep;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.JOptionPane;
 
 /**
  *
@@ -49,6 +45,8 @@ public class Client_Main extends javax.swing.JFrame {
         wCamPanel.setFPSDisplayed(true);
         panelCam.add(wCamPanel);
         wCamPanel.start();
+//        
+
     }
 
     /**
@@ -64,6 +62,10 @@ public class Client_Main extends javax.swing.JFrame {
         panelCam = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jToggleButton1 = new javax.swing.JToggleButton();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        addcon = new javax.swing.JLabel();
+        portcon = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -80,7 +82,8 @@ public class Client_Main extends javax.swing.JFrame {
             .addGap(0, 0, Short.MAX_VALUE)
         );
 
-        jLabel1.setText("jLabel1");
+        jLabel1.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        jLabel1.setText("STATUS");
 
         jToggleButton1.setText("LIVE");
         jToggleButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -88,6 +91,14 @@ public class Client_Main extends javax.swing.JFrame {
                 jToggleButton1ActionPerformed(evt);
             }
         });
+
+        jLabel2.setText("Server Address :");
+
+        jLabel3.setText("Server Port :");
+
+        addcon.setText("connecting");
+
+        portcon.setText("connecting");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -99,12 +110,21 @@ public class Client_Main extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jToggleButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel2))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(addcon, javax.swing.GroupLayout.DEFAULT_SIZE, 94, Short.MAX_VALUE)
+                            .addComponent(portcon, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addContainerGap())
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(73, 73, 73)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(jLabel1)
-                        .addContainerGap(74, Short.MAX_VALUE))))
+                        .addGap(57, 57, 57))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jToggleButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addContainerGap())))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -114,9 +134,17 @@ public class Client_Main extends javax.swing.JFrame {
                     .addComponent(panelCam, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel1)
-                        .addGap(244, 244, 244)
+                        .addGap(5, 5, 5)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel2)
+                            .addComponent(addcon))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel3)
+                            .addComponent(portcon))
+                        .addGap(201, 201, 201)
                         .addComponent(jToggleButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(15, Short.MAX_VALUE))
+                .addContainerGap(7, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -145,9 +173,8 @@ public class Client_Main extends javax.swing.JFrame {
             Thread t = new Thread() {
                 @Override
                 public void run() {
-//                final concatenate merge = new concatenate();
-//                final JavaSoundRecorder recorder = new JavaSoundRecorder();
 
+//                    final JavaSoundRecorder recorder = new JavaSoundRecorder();
                     long start = System.currentTimeMillis();
                     Thread stopper = new Thread(new Runnable() {
                         public void run() {
@@ -155,10 +182,11 @@ public class Client_Main extends javax.swing.JFrame {
                                 System.out.println("VIDEO AND AUDIO RECORDING...");
                                 int count = 0;
                                 while (testLive) {
+//                                    concatenate merge = new concatenate("out"+count+".mp4");
                                     IMediaWriter writer = ToolFactory.makeWriter("media/out" + count + ".mp4");
                                     writer.addVideoStream(0, 0, ICodec.ID.CODEC_ID_H264, size.width, size.height);
                                     for (int i = 1; i <= 50; i++) {
-                                        System.out.println("Capture frame " + i);
+//                                        System.out.println("Capture frame " + i);
                                         BufferedImage image = ConverterFactory.convertToType(webcam.getImage(), BufferedImage.TYPE_3BYTE_BGR);
                                         IConverter converter = ConverterFactory.createConverter(image, IPixelFormat.Type.YUV420P);
                                         IVideoPicture frame = converter.toPicture(image, (System.currentTimeMillis() - start) * 1000);
@@ -168,6 +196,10 @@ public class Client_Main extends javax.swing.JFrame {
                                         Thread.sleep(i);
                                     }
                                     writer.close();
+//                                    recorder.finish();
+//                                    System.out.println("Video and Audio recorded...");
+//                                    merge.start();
+//                                    System.out.println("Video and Audio Concatenated...");
                                     synchronized (sendFile[count % nic.size()]) {
                                         sendFile[count % nic.size()].send(nic.get(count % nic.size()), address, port, "media/out" + count + ".mp4");
                                     }
@@ -176,15 +208,12 @@ public class Client_Main extends javax.swing.JFrame {
                             } catch (InterruptedException ex) {
                                 ex.printStackTrace();
                             }
-//                        recorder.finish();
-//                        System.out.println("Video and Audio recorded...");
-//                        merge.start();
-//                        System.out.println("Video and Audio Concatenated...");
+
                         }
                     });
 
                     stopper.start();
-//                recorder.start();
+//                    recorder.start();
                 }
             };
             t.setDaemon(true);
@@ -195,6 +224,10 @@ public class Client_Main extends javax.swing.JFrame {
 
     }//GEN-LAST:event_jToggleButton1ActionPerformed
 
+    public void set(String server,int port){
+        addcon.setText(server);
+        portcon.setText(""+port);
+    }
     /**
      * @param args the command line arguments
      */
@@ -231,9 +264,13 @@ public class Client_Main extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel addcon;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JToggleButton jToggleButton1;
     private javax.swing.JPanel panelCam;
+    private javax.swing.JLabel portcon;
     // End of variables declaration//GEN-END:variables
 }

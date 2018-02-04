@@ -9,7 +9,7 @@ public class JavaSoundRecorder {
     static final long RECORD_TIME = 7000;	// 1 minute
 
     // path of the wav file
-    File wavFile = new File("AudioOutput.aac");
+    File wavFile = new File("media/cacheSound.aac");
     // format of audio file
     AudioFileFormat.Type fileType = AudioFileFormat.Type.WAVE;
 

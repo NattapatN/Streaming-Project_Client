@@ -46,8 +46,20 @@ public class SETUP_Main extends javax.swing.JFrame {
         jLabel2.setText("Server Port :");
 
         address.setBackground(new java.awt.Color(255, 255, 255));
+        address.setText("192.168.2.130");
+        address.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addressActionPerformed(evt);
+            }
+        });
 
         port.setBackground(new java.awt.Color(255, 255, 255));
+        port.setText("9000");
+        port.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                portActionPerformed(evt);
+            }
+        });
 
         jButton1.setBackground(new java.awt.Color(102, 255, 102));
         jButton1.setText("OK");
@@ -59,6 +71,11 @@ public class SETUP_Main extends javax.swing.JFrame {
 
         jButton2.setBackground(new java.awt.Color(255, 51, 51));
         jButton2.setText("CANCEL");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -111,20 +128,33 @@ public class SETUP_Main extends javax.swing.JFrame {
             int bufferSize = 1024 * 1024; //1MB
             ReadNIC rNIC = new ReadNIC();
             ArrayList<String> nic = rNIC.getNIC();
-            String server = address.getText();
-            int sport = Integer.parseInt(port.getText().toString());
-            ConnectServer con = new ConnectServer(server, sport, nic.size());
+            String server=address.getText();
+            ConnectServer con = new ConnectServer(server, Integer.parseInt(port.getText().toString()), nic.size());
             int newPort = con.getNewPort(bufferSize);
-
             Client_Main client = new Client_Main();
-            client.address = server;
+            client.set(server,newPort);
+            client.address = address.getText();
             client.port = newPort;
+            client.setTitle("@LIVE");
             client.setVisible(true);
             dispose();
         } else {
             JOptionPane.showMessageDialog(null, "Plase Enter Address and Port !!");
         }
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void addressActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addressActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_addressActionPerformed
+
+    private void portActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_portActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_portActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        System.exit(0);
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -156,7 +186,10 @@ public class SETUP_Main extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new SETUP_Main().setVisible(true);
+                //new SETUP_Main().setVisible(true);
+                SETUP_Main setup = new SETUP_Main();
+                setup.setTitle("@LIVE");
+                setup.setVisible(true);
             }
         });
     }
