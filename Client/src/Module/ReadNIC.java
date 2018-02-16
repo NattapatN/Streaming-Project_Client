@@ -17,7 +17,6 @@ import java.util.Enumeration;
  * @author NattapatN
  */
 public class ReadNIC {
-
     ArrayList<String> nic;
 
     public ReadNIC() {
@@ -61,5 +60,5 @@ public class ReadNIC {
             }
         }
         return nic;
-    }
+    }    
 }
