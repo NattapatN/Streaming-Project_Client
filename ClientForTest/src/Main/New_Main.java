@@ -12,9 +12,12 @@ import com.github.sarxos.webcam.WebcamResolution;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.io.BufferedReader;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.net.Socket;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -34,6 +37,7 @@ public class New_Main extends javax.swing.JFrame {
     String server;
     String[] speed;
     int port;
+    int newPort;
 
     /**
      * Creates new form New_Main
@@ -53,8 +57,15 @@ public class New_Main extends javax.swing.JFrame {
             BufferedReader br = new BufferedReader(fr);
             server = br.readLine();
             port = Integer.parseInt(br.readLine());
+            
+            Socket socket = new Socket(server, port);
+            DataInputStream in = new DataInputStream(socket.getInputStream());
+            DataOutputStream out = new DataOutputStream(socket.getOutputStream());
+            newPort = in.readInt();
+            out.writeInt(nic.size());
+            socket.close();
 
-            address.setText(":/" + server + ":" + port);
+            address.setText(":/" + server + ":" + newPort);
             status.setText("Status : Connected.");
             
             speed = br.readLine().split(" ");
