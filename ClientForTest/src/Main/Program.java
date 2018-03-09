@@ -49,7 +49,7 @@ public class Program extends javax.swing.JFrame {
     int port;
     int delay = 3; //delay (file)
     int time = 5000; //file chunk(time(s.))
-    int[] algo = {0, 1, 2}; //Algorithm(nic sequence) 
+    int[] algo = {0, 1}; //Algorithm(nic sequence) 
     ArrayList<String> nic;
     SendStream[] sStream;
     int newPort;

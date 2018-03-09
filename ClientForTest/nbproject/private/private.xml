@@ -3,11 +3,11 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/NattapatN/Desktop/Project/ClientForTest/src/Module/ReadNIC.java</file>
-            <file>file:/C:/Users/NattapatN/Desktop/Project/ClientForTest/test/TestWriteLog.java</file>
-            <file>file:/C:/Users/NattapatN/Desktop/Project/ClientForTest/src/Main/MainProgram.java</file>
-            <file>file:/C:/Users/NattapatN/Desktop/Project/ClientForTest/src/Module/SendStream.java</file>
-            <file>file:/C:/Users/NattapatN/Desktop/Project/ClientForTest/src/Main/Program.java</file>
+            <file>file:/C:/Users/NattapatN/Desktop/ClientForTest/src/Main/Program.java</file>
+            <file>file:/C:/Users/NattapatN/Desktop/ClientForTest/src/Module/Record.java</file>
+            <file>file:/C:/Users/NattapatN/Desktop/ClientForTest/src/Module/ControlStreaming.java</file>
+            <file>file:/C:/Users/NattapatN/Desktop/ClientForTest/src/Main/New_Main.java</file>
+            <file>file:/C:/Users/NattapatN/Desktop/ClientForTest/src/Module/SendStream.java</file>
         </group>
     </open-files>
 </project-private>
