@@ -53,6 +53,9 @@ public class New_Main extends javax.swing.JFrame {
             panelCam.add(wCamPanel);
             wCamPanel.start();
 
+            ReadNIC read = new ReadNIC();
+            nic = read.getNIC();
+            
             fr = new FileReader("config.txt");
             BufferedReader br = new BufferedReader(fr);
             server = br.readLine();
@@ -64,14 +67,12 @@ public class New_Main extends javax.swing.JFrame {
             newPort = in.readInt();
             out.writeInt(nic.size());
             socket.close();
-
+            System.out.println("File No.\tFile write\tTime Stamp");
             address.setText(":/" + server + ":" + newPort);
             status.setText("Status : Connected.");
             
             speed = br.readLine().split(" ");
 
-            ReadNIC read = new ReadNIC();
-            nic = read.getNIC();
             String showNIC = "<html>";
             for (int i = 0; i < nic.size(); i++) {
                 //check connection
@@ -185,10 +186,10 @@ public class New_Main extends javax.swing.JFrame {
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(network)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(131, Short.MAX_VALUE))
         );
 
-        liveButton.setText("LIVE");
+        liveButton.setText("•LIVE");
         liveButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 liveButtonActionPerformed(evt);
@@ -204,23 +205,23 @@ public class New_Main extends javax.swing.JFrame {
                 .addComponent(panelCam, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 187, Short.MAX_VALUE)
-                    .addComponent(liveButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(liveButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(panelCam, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 179, Short.MAX_VALUE)
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(liveButton))
-                    .addComponent(panelCam, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(liveButton)))
                 .addContainerGap(20, Short.MAX_VALUE))
         );
 
@@ -232,7 +233,7 @@ public class New_Main extends javax.swing.JFrame {
         liveButton.setText("Streaming...");
         Record record = new Record(size, wCam, speed,liveButton);
         record.start();
-        ControlStreaming cStream = new ControlStreaming(speed,server,port,nic);
+        ControlStreaming cStream = new ControlStreaming(speed,server,newPort,nic);
         cStream.start();
         liveButton.setEnabled(false);
     }//GEN-LAST:event_liveButtonActionPerformed

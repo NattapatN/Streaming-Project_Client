@@ -29,22 +29,27 @@ public class Record extends Thread {
     public boolean isStop = false;
     int count = 0;
     JButton liveButton;
+    int allTime=0;
 
     public Record(Dimension size, Webcam wCam, String[] time, JButton liveButton) {
         this.size = size;
         this.wCam = wCam;
         this.time = time;
         this.liveButton = liveButton;
+        for(String a : time){
+            allTime +=  Integer.parseInt(a);
+        }
     }
 
     public void run() {
         System.out.println("[File No.]\t[File write]\t[Time Stamp]\t[Total Time]");
         long startStreaming = System.currentTimeMillis();
-        while (System.currentTimeMillis() - startStreaming < 30000) {
+        while (System.currentTimeMillis() - startStreaming < 240000) {
             IMediaWriter writer = ToolFactory.makeWriter("media/output" + count + ".mp4");
             writer.addVideoStream(0, 0, ICodec.ID.CODEC_ID_H264, size.width, size.height);
             long start = System.currentTimeMillis();
-            for (int i = 0; System.currentTimeMillis() - start <= Integer.parseInt(time[count % time.length]) * 10; i++) {
+            double timing = (double)Integer.parseInt(time[count % time.length])/allTime;
+            for (int i = 0; System.currentTimeMillis() - start <= timing* 10000; i++) {
                 BufferedImage image = ConverterFactory.convertToType(wCam.getImage(), BufferedImage.TYPE_3BYTE_BGR);
                 IConverter converter = ConverterFactory.createConverter(image, IPixelFormat.Type.YUV420P);
                 IVideoPicture frame = converter.toPicture(image, (System.currentTimeMillis() - start) * 1000);
@@ -65,7 +70,8 @@ public class Record extends Thread {
             threadWrite.start();
             count++;
         }
-        liveButton.setText("End");
+        liveButton.setText("•LIVE");
+        liveButton.setEnabled(true);
     }
 
 }

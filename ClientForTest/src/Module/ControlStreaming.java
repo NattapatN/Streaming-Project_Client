@@ -21,6 +21,7 @@ public class ControlStreaming extends Thread {
     String server;
     int port;
     ArrayList<String> nic;
+    int allTime =0;
 
     public ControlStreaming(String[] speed, String server, int port, ArrayList<String> nic) {
         this.speed = speed;
@@ -31,6 +32,9 @@ public class ControlStreaming extends Thread {
             delay += Integer.parseInt(speed[i]);
         }
         delay*=10;
+        for(String a : speed){
+            allTime +=  Integer.parseInt(a);
+        }
     }
 
     public void run() {
@@ -49,7 +53,8 @@ public class ControlStreaming extends Thread {
                         sleep(Integer.parseInt(speed[count % nic.size()]));
                     }
 //                    System.out.println("Readfile : "+count);
-                    sleep(Integer.parseInt(speed[count % nic.size()])*10);
+                    double timing = (double)Integer.parseInt(speed[count % speed.length])/allTime;
+                    sleep((long)(timing*10000));
                     count++;
                     start=System.currentTimeMillis();
                 } else {
